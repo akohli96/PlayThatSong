@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+bower_components/
 
 # C extensions
 *.so

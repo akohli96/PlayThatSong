@@ -10,7 +10,6 @@
 
 <body>
     <div class="container">
-        <a href="/">&laquo; Examples</a>
 
         <section>
             <h2>Transcribe from Microphone</h2>
@@ -25,35 +24,45 @@
         <!-- window.fetch pollyfill for IE/Edge & Older Chrome/FireFox -->
         <script src="bower_components/fetch/fetch.js"></script>
 
-        <h2>Code for this demo:</h2>
+        <div id="player"></div>
 
-        <pre><code><script style="display: block;">
-document.querySelector('#button').onclick = function () {
+        <script>
+          var tag = document.createElement("script")
 
-  fetch('/api/speech-to-text/token')
-  .then(function(response) {
-      return response.text();
-  }).then(function (token) {
+          tag.src = "https://www.youtube.com/iframe_api"
+          var firstScriptTag = document.getElementsByTagName('script')[0]
+          firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-    var stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
-        token: token,
-        outputElement: '#output' // CSS selector or DOM Element
-    });
+          var player;
+          function onYouTubeIframeAPIReady(){
+            player = new YT.Player('player', {
+              height: '390',
+              width: '640',
+              videoId: 'M7lc1UVf-VE',
+              events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+              }
+            })
+          }
 
-    stream.on('error', function(err) {
-        console.log(err);
-    });
+          function onPlayerReady(event){
+            event.target.playVideo();
+          }
 
-    document.querySelector('#stop').onclick = function() {
-      stream.stop();
-    };
+          var done = false;
+          function onPlayerStateChange(){
+            console.log("State Changed")
+            if(event.data == YT.PlayerState.PLAYING && !done){
+              setTimeout(stopVideo, 6000)
+              done = true
+            }
+          }
+          function stopVideo(){
+            player.stopVideo()
+          }
 
-  }).catch(function(error) {
-      console.log(error);
-  });
-};
-
-</script></code></pre>
+        </script>
 
     </div>
 </body>
