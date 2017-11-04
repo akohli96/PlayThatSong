@@ -5,14 +5,14 @@ from watson_developer_cloud import SpeechToTextV1 as SpeechToText
 from cred import speech_auth
 
 # Speech to Text
-STT_USERNAME = speech_auth['username'] # '<Speech to Text username>'
-STT_PASSWORD = speech_auth['password'] # '<Speech to Text password>'
+STT_USERNAME = speech_auth['username'] 
+STT_PASSWORD = speech_auth['password'] 
 
 app = Flask(__name__, static_url_path='')
 
 @app.route('/')
 def root():
-  return app.send_static_file('microphone-streaming.html')
+  return app.send_static_file('microphone-streaming-text-to-console.html')
 
 @app.route('/api/speech-to-text/token')
 def getSttToken():
