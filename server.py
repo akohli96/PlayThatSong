@@ -2,10 +2,11 @@ import os, json
 from flask import Flask
 from watson_developer_cloud import AuthorizationV1 as Authorization
 from watson_developer_cloud import SpeechToTextV1 as SpeechToText
+from cred import speech_auth
 
 # Speech to Text
-STT_USERNAME = None # '<Speech to Text username>'
-STT_PASSWORD = None # '<Speech to Text password>'
+STT_USERNAME = speech_auth['username'] # '<Speech to Text username>'
+STT_PASSWORD = speech_auth['password'] # '<Speech to Text password>'
 
 app = Flask(__name__, static_url_path='')
 
