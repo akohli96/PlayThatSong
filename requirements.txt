@@ -16,7 +16,6 @@ pyOpenSSL==17.3.0
 pysolr==3.6.0
 requests==2.18.4
 six==1.11.0
-SpeechRecognition==3.7.1
 urllib3==1.22
 watson-developer-cloud==0.26.1
 Werkzeug==0.12.2
