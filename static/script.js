@@ -1,4 +1,7 @@
 var stuff;
+var artist;
+var title;
+
 document.querySelector('#button').onclick = function() {
     fetch('/api/speech-to-text/token')
         .then(function(response) {
@@ -38,10 +41,81 @@ function getSong() {
             if (lyrics_xhr.status === 200) {
                 var song_payload = lyrics_xhr.response;
                 var json = JSON.parse(song_payload);
-                console.log(json);
+                artist = json['0']['artist']
+                title = json['0']['title']
             }
         }
     };
     lyrics_xhr.send(JSON.stringify({ 'search': stuff }));
+}
 
+//gettig video url
+function getVideoUrl(){
+  var video_xhr = new XMLHttpRequest();
+  var url = '/api/video'
+  video_xhr.open("POST", url, true)
+  video_xhr.setRequestHeader("Content-type", "application/json");
+  video_xhr.onreadystatechange = function() {
+    if (video_xhr.readyState === 4) {
+        if (video_xhr.status === 200) {
+            var json = JSON.parse(video_xhr.response)
+            var videoURL = json['0'].substring(json['0'].indexOf("="))
+            loadVideo(videoURL);
+          }
+    }
+  }
+  var stuff = artist + " " + title
+  console.log(stuff)
+  video_xhr.send(JSON.stringify({ 'search':  stuff }));
+}
+
+// Youtube Video loading
+var tag = document.createElement("script")
+
+tag.src = "https://www.youtube.com/iframe_api"
+var firstScriptTag = document.getElementsByTagName('script')[0]
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+var player;
+function onYouTubeIframeAPIReady(){
+  player = new YT.Player('player', {
+    height: '390',
+    width: '640',
+    videoId: 'M7lc1UVf-VE',
+    events: {
+      'onReady': onPlayerReady,
+      'onStateChange': onPlayerStateChange
+    }
+  })
+}
+
+var onPlayerReady = function(event){
+  event.target.playVideo();
+}
+
+var done = false;
+var onPlayerStateChange = function(){
+  if(event.data == YT.PlayerState.PLAYING && !done){
+    setTimeout(stopVideo, 6000)
+    done = true
+  }
+}
+var stopVideo = function(){
+  if(player != null){
+    player.stopVideo()
+  }
+}
+
+function loadVideo(videoid){
+  stopVideo();
+  print(videoid)
+  player = new YT.Player('player', {
+    height: '390',
+    width: '640',
+    videoId: videoid,
+    events: {
+      'onReady': onPlayerReady,
+      'onStateChange': onPlayerStateChange
+    }
+  })
 }

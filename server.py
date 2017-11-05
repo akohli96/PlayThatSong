@@ -6,8 +6,8 @@ from cred import speech_auth
 from py_genius import Genius
 from apiclient.discovery import build
 
-STT_USERNAME = speech_auth['username'] 
-STT_PASSWORD = speech_auth['password'] 
+STT_USERNAME = speech_auth['username']
+STT_PASSWORD = speech_auth['password']
 GENIUS_TOKEN = speech_auth['auth']
 YOUTUBE_DEVELOPER_KEY = speech_auth['youtube_key']
 YOUTUBE_API_SERVICE_NAME = speech_auth['youtube_service']
@@ -42,17 +42,18 @@ def get_quote():
 
 @app.route('/api/video',methods=['POST'])
 def get_video_url():
-  search_response = youtube.search().list(
-    q=request.json['search'],
-    part='id',
-    maxResults=2
-  ).execute()
+    print("REQUESTED")
+    search_response = youtube.search().list(
+        q=request.json['search'],
+        part='id',
+        maxResults=2
+    ).execute()
+    print(search_response)
+    videos={}
 
-  videos={}
+    for i,search_result in enumerate(search_response.get('items', [])):
+        videos[i]="https://www.youtube.com/watch?v="+str(search_result['id']['videoId'])
 
-  for i,search_result in enumerate(search_response.get('items', [])):
-      videos[i]="https://www.youtube.com/watch?v="+str(search_result['id']['videoId'])
-
-  return jsonify(videos)
+    return jsonify(videos)
 
 app.run(debug=True)
