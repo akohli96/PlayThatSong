@@ -5,6 +5,7 @@ from watson_developer_cloud import SpeechToTextV1 as SpeechToText
 from cred import speech_auth
 from py_genius import Genius
 from apiclient.discovery import build
+from tswift_modified import Song
 
 STT_USERNAME = speech_auth['username']
 STT_PASSWORD = speech_auth['password']
@@ -32,11 +33,15 @@ def get_quote():
   #print request.json['search']
   search=request.json['search']
   #print search
+  """
   result = api.search(search)
-  top_results={}
   for i,sub_result in enumerate(result['response']['hits'][:3]):
     subset=sub_result['result']
     top_results[i]={'title': subset['title'],'artist':subset['primary_artist']['name'] }
+  """
+  top_results={}
+  song = Song.find_song(search)
+  top_results[0]={'title': song.title, 'artist':song.artist}
   print top_results
   return jsonify(top_results)
 
