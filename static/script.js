@@ -13,9 +13,10 @@ function getSong(lyrics) {
             if (lyrics_xhr.status === 200) {
                 var song_payload = lyrics_xhr.response;
                 var json = JSON.parse(song_payload);
-                console.log(json)
                 artist = json['0']['artist']
                 title = json['0']['title']
+                console.log(artist)
+                console.log(title)
                 getVideoUrl();
             }
         }
@@ -29,17 +30,20 @@ function getVideoUrl(){
   var url = '/api/video'
   video_xhr.open("POST", url, true)
   video_xhr.setRequestHeader("Content-type", "application/json");
+  console.log("Sending for url")
   video_xhr.onreadystatechange = function() {
     if (video_xhr.readyState === 4) {
         if (video_xhr.status === 200) {
             var json = JSON.parse(video_xhr.response)
+            console.log(json)
             var videoURL = json['0']
             loadVideo(videoURL);
           }
     }
-    var stuff = artist + " " + title
-    console.log(stuff)
-    video_xhr.send(JSON.stringify({ 'search': stuff }));
+  }
+    stuff = artist + " " + title
+    console.log("Sending post");
+    video_xhr.send(JSON.stringify({ 'search': stuff }))
 }
 
 // Youtube Video loading
@@ -53,9 +57,9 @@ var player;
 
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
-        height: '390',
-        width: '640',
-        videoId: 'M7lc1UVf-VE',
+        height: '600',
+        width: '600',
+        videoId: '0',
         events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
@@ -80,11 +84,14 @@ var stopVideo = function() {
 function loadVideo(video){
   stopVideo();
 
-  done = false;
   if(videoid != video ){
+    videoid = video
+    console.log("Changing video")
     player.loadVideoById(videoid, 0, "large")
   }
+
   startDictation();
+  console.log("Starting dictation")
 }
 
 

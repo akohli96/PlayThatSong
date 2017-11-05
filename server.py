@@ -40,14 +40,16 @@ def get_quote():
     top_results[i]={'title': subset['title'],'artist':subset['primary_artist']['name'] }
   """
   top_results={}
+  top_results[0]={'title' : 'Never Gonna give you up', 'artist': 'Rick Astley'}
   song = Song.find_song(search)
-  top_results[0]={'title': song.title, 'artist':song.artist}
+  if(song != None or song.title != None or song.artist != None):
+      top_results[0]={'title': song.title, 'artist':song.artist}
   print top_results
   return jsonify(top_results)
 
 @app.route('/api/video',methods=['POST'])
 def get_video_url():
-    print("REQUESTED")
+    print("Got post")
     search_response = youtube.search().list(
         q=request.json['search'],
         part='id',
