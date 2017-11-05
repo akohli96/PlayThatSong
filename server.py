@@ -27,11 +27,14 @@ def getSttToken():
 def get_quote():
   #print request.json['search']
   search=request.json['search']
+  print search
   result = api.search(search)
-  for sub_result in result['response']['hits'][:3]:
-    to_parse=sub_result['result']
-    print to_parse['title'],to_parse['primary_artist']['name']
-  return jsonify(result)
+  top_results={}
+  for i,sub_result in enumerate(result['response']['hits'][:3]):
+    subset=sub_result['result']
+    top_results[i]={'title': subset['title'],'artist':subset['primary_artist']['name'] }
+  print top_results
+  return jsonify(top_results)
 
 
 app.run(debug=True)
