@@ -5,7 +5,7 @@ from watson_developer_cloud import SpeechToTextV1 as SpeechToText
 from cred import speech_auth
 from py_genius import Genius
 from apiclient.discovery import build
-from tswift import Song
+from tswift_modified import Song
 
 STT_USERNAME = speech_auth['username']
 STT_PASSWORD = speech_auth['password']
