@@ -8,7 +8,6 @@ function getSong(lyrics) {
     var url = '/api/search';
     lyrics_xhr.open("POST", url, true);
     lyrics_xhr.setRequestHeader("Content-type", "application/json");
-    console.log("hello world");
     lyrics_xhr.onreadystatechange = function() {
         if (lyrics_xhr.readyState === 4) {
             if (lyrics_xhr.status === 200) {
@@ -38,10 +37,9 @@ function getVideoUrl(){
             loadVideo(videoURL);
           }
     }
-  }
-  var stuff = artist + " " + title
-  console.log(stuff)
-  video_xhr.send(JSON.stringify({ 'search':  stuff }));
+    var stuff = artist + " " + title
+    console.log(stuff)
+    video_xhr.send(JSON.stringify({ 'search': stuff }));
 }
 
 // Youtube Video loading
@@ -52,32 +50,34 @@ var firstScriptTag = document.getElementsByTagName('script')[0]
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 var player;
-function onYouTubeIframeAPIReady(){
-  player = new YT.Player('player', {
-    height: '390',
-    width: '640',
-    videoId: 'M7lc1UVf-VE',
-    events: {
-      'onReady': onPlayerReady,
-      'onStateChange': onPlayerStateChange
-    }
-  })
+
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+        height: '390',
+        width: '640',
+        videoId: 'M7lc1UVf-VE',
+        events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+        }
+    })
 }
 
-var onPlayerReady = function(event){
-  event.target.playVideo();
+var onPlayerReady = function(event) {
+    event.target.playVideo();
 }
 
 var done = false;
-var onPlayerStateChange = function(){
+var onPlayerStateChange = function() {
 
 }
-var stopVideo = function(){
-  if(player != null){
-    player.stopVideo()
-  }
+var stopVideo = function() {
+    if (player != null) {
+        player.stopVideo()
+    }
 }
 
+<<<<<<< HEAD
 function loadVideo(video){
   stopVideo();
 
@@ -118,3 +118,12 @@ function startDictation() {
 }
 
 startDictation()
+=======
+function loadVideo(videoid) {
+    stopVideo();
+
+    done = false;
+    console.log(videoid)
+    player.loadVideoById(videoid, 0, "large ")
+}
+>>>>>>> b4686985d74f17e34e651e13cb125e8d5d226cf8
