@@ -37,6 +37,8 @@ function getVideoUrl() {
                 var json = JSON.parse(video_xhr.response)
                 console.log(json)
                 var videoURL = json['0']
+                document.getElementById('artist').innerHTML = artist
+                document.getElementById('current_song').innerHTML = title
                 loadVideo(videoURL);
             }
         }
@@ -57,8 +59,8 @@ var player;
 
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
-        height: window.innerHeight / 2,
-        width: window.innerWidth / 2,
+        height: window.innerHeight - 100,
+        width: window.innerWidth,
         videoId: '0',
         events: {
             'onReady': onPlayerReady,
@@ -112,7 +114,7 @@ function startDictation() {
             var transcript = e.results[0][0].transcript;
             recognition.stop();
             console.log("Found Something")
-            document.getElementById('placer').innerHTML = transcript;
+            document.getElementById('transcript').innerHTML = transcript;
             getSong(transcript)
         };
 

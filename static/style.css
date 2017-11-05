@@ -1,8 +1,25 @@
 body {
-  left: -10px;
-  top: -10px;
+  position: relative;
+  left: -8px;
+  top: 0px;
   right: 0px;
   bottom: 0px;
   position: absolute;
   overflow: hidden;
+}
+
+table{
+  margin-left: 10px;
+  margin-right: 10px;
+  border-collapse: collapse;;
+}
+
+
+.name {
+  position: absolute;
+  text-align: center;
+  z-index: -1;
+  top: -25px;
+  left: 10px;
+  color: red;
 }
