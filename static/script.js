@@ -21,26 +21,26 @@ function getSong(lyrics) {
             }
         }
     };
-    lyrics_xhr.send(JSON.stringify({ 'search': lyrics  }));
+    lyrics_xhr.send(JSON.stringify({ 'search': lyrics }));
 }
 
 //gettig video url
-function getVideoUrl(){
-  var video_xhr = new XMLHttpRequest();
-  var url = '/api/video'
-  video_xhr.open("POST", url, true)
-  video_xhr.setRequestHeader("Content-type", "application/json");
-  console.log("Sending for url")
-  video_xhr.onreadystatechange = function() {
-    if (video_xhr.readyState === 4) {
-        if (video_xhr.status === 200) {
-            var json = JSON.parse(video_xhr.response)
-            console.log(json)
-            var videoURL = json['0']
-            loadVideo(videoURL);
-          }
+function getVideoUrl() {
+    var video_xhr = new XMLHttpRequest();
+    var url = '/api/video'
+    video_xhr.open("POST", url, true)
+    video_xhr.setRequestHeader("Content-type", "application/json");
+    console.log("Sending for url")
+    video_xhr.onreadystatechange = function() {
+        if (video_xhr.readyState === 4) {
+            if (video_xhr.status === 200) {
+                var json = JSON.parse(video_xhr.response)
+                console.log(json)
+                var videoURL = json['0']
+                loadVideo(videoURL);
+            }
+        }
     }
-  }
     stuff = artist + " " + title
     console.log("Sending post");
     video_xhr.send(JSON.stringify({ 'search': stuff }))
@@ -81,17 +81,16 @@ var stopVideo = function() {
     }
 }
 
-function loadVideo(video){
-  stopVideo();
+function loadVideo(video) {
+    stopVideo();
 
-  if(videoid != video ){
-    videoid = video
-    console.log("Changing video")
-    player.loadVideoById(videoid, 0, "large")
-  }
+    if (videoid != video) {
+        videoid = video
+        console.log("Changing video")
+        player.loadVideoById(videoid, 0, "large")
+    }
 
-  startDictation();
-  console.log("Starting dictation")
+    startDictation();
 }
 
 
@@ -110,9 +109,10 @@ function startDictation() {
         recognition.start();
         console.log("After Start");
         recognition.onresult = function(e) {
-            console.log("Found Something")
             var transcript = e.results[0][0].transcript;
             recognition.stop();
+            console.log("Found Something")
+            document.getElementById('placer').innerHTML = transcript;
             getSong(transcript)
         };
 
