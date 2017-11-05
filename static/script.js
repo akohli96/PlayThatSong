@@ -90,7 +90,7 @@ function loadVideo(video) {
         player.loadVideoById(videoid, 0, "large")
     }
 
-    startDictation();
+    //startDictation();
 }
 
 
@@ -123,4 +123,4 @@ function startDictation() {
     }
 }
 
-startDictation()
+//startDictation()
