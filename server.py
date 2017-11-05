@@ -6,7 +6,6 @@ from cred import speech_auth
 from py_genius import Genius
 from apiclient.discovery import build
 
-# Speech to Text
 STT_USERNAME = speech_auth['username'] 
 STT_PASSWORD = speech_auth['password'] 
 GENIUS_TOKEN = speech_auth['auth']
