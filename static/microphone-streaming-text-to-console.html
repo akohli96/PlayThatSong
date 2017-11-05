@@ -15,23 +15,23 @@
             <button id="button">Start Microphone Transcription</button>
             <button id="stop">Stop</button>
 
-            <h2>Output:</h2>
-            <div id="output">Open your browser's console to view the output.</div>
+            <h2>So you want me to search for ?</h2>
+            <div id="output"></div>
         </section>
 
         <button type='button' onclick="getSong()">Get Song</button>
-        <input type='button' onclick="getVideoUrl()" value="Get Video URl"/>
+        <input type='button' onclick="getVideoUrl()" value="Get Video URl" />
 
         <div id="player"></div>
     </div>
 </body>
 
 <footer>
-  <script src="bower_components/watson-speech/dist/watson-speech.js"></script>
-  <!-- window.fetch pollyfill for IE/Edge & Older Chrome/FireFox -->
-  <script src="bower_components/fetch/fetch.js"></script>
-  <!-- magic script -->
-  <script src="script.js"></script>
+    <script src="bower_components/watson-speech/dist/watson-speech.js"></script>
+    <!-- window.fetch pollyfill for IE/Edge & Older Chrome/FireFox -->
+    <script src="bower_components/fetch/fetch.js"></script>
+    <!-- magic script -->
+    <script src="script.js"></script>
 </footer>
 
 </html>

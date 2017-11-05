@@ -17,6 +17,7 @@ document.querySelector('#button').onclick = function() {
 
             stream.on('data', function(data) {
                 stuff = data;
+                document.getElementById("output").innerHTML = stuff
                 console.log(stuff);
             });
 
@@ -50,23 +51,23 @@ function getSong() {
 }
 
 //gettig video url
-function getVideoUrl(){
-  var video_xhr = new XMLHttpRequest();
-  var url = '/api/video'
-  video_xhr.open("POST", url, true)
-  video_xhr.setRequestHeader("Content-type", "application/json");
-  video_xhr.onreadystatechange = function() {
-    if (video_xhr.readyState === 4) {
-        if (video_xhr.status === 200) {
-            var json = JSON.parse(video_xhr.response)
-            var videoURL = json['0'].substring(json['0'].indexOf("=") + 1)
-            loadVideo(videoURL);
-          }
+function getVideoUrl() {
+    var video_xhr = new XMLHttpRequest();
+    var url = '/api/video'
+    video_xhr.open("POST", url, true)
+    video_xhr.setRequestHeader("Content-type", "application/json");
+    video_xhr.onreadystatechange = function() {
+        if (video_xhr.readyState === 4) {
+            if (video_xhr.status === 200) {
+                var json = JSON.parse(video_xhr.response)
+                var videoURL = json['0'].substring(json['0'].indexOf("=") + 1)
+                loadVideo(videoURL);
+            }
+        }
     }
-  }
-  var stuff = artist + " " + title
-  console.log(stuff)
-  video_xhr.send(JSON.stringify({ 'search':  stuff }));
+    var stuff = artist + " " + title
+    console.log(stuff)
+    video_xhr.send(JSON.stringify({ 'search': stuff }));
 }
 
 // Youtube Video loading
@@ -77,36 +78,37 @@ var firstScriptTag = document.getElementsByTagName('script')[0]
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 var player;
-function onYouTubeIframeAPIReady(){
-  player = new YT.Player('player', {
-    height: '390',
-    width: '640',
-    videoId: 'M7lc1UVf-VE',
-    events: {
-      'onReady': onPlayerReady,
-      'onStateChange': onPlayerStateChange
-    }
-  })
+
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+        height: '390',
+        width: '640',
+        videoId: 'M7lc1UVf-VE',
+        events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+        }
+    })
 }
 
-var onPlayerReady = function(event){
-  event.target.playVideo();
+var onPlayerReady = function(event) {
+    event.target.playVideo();
 }
 
 var done = false;
-var onPlayerStateChange = function(){
+var onPlayerStateChange = function() {
 
 }
-var stopVideo = function(){
-  if(player != null){
-    player.stopVideo()
-  }
+var stopVideo = function() {
+    if (player != null) {
+        player.stopVideo()
+    }
 }
 
-function loadVideo(videoid){
-  stopVideo();
+function loadVideo(videoid) {
+    stopVideo();
 
-  done = false;
-  console.log(videoid)
-  player.loadVideoById(videoid, 0, "large ")
+    done = false;
+    console.log(videoid)
+    player.loadVideoById(videoid, 0, "large ")
 }
