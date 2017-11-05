@@ -1,52 +1,27 @@
 var stuff;
 var artist;
 var title;
+var videoid;
 
-document.querySelector('#button').onclick = function() {
-    fetch('/api/speech-to-text/token')
-        .then(function(response) {
-            return response.text();
-        }).then(function(token) {
-
-            var stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
-                token: token,
-                object_mode: false
-            });
-
-            stream.setEncoding('utf8'); // get text instead of Buffers for on data events
-
-            stream.on('data', function(data) {
-                stuff = data;
-                console.log(stuff);
-            });
-
-            stream.on('error', function(err) {
-                console.log(err);
-            });
-
-            document.querySelector('#stop').onclick = stream.stop.bind(stream);
-
-        }).catch(function(error) {
-            console.log(error);
-        });
-};
-
-function getSong() {
+function getSong(lyrics) {
     var lyrics_xhr = new XMLHttpRequest();
     var url = '/api/search';
     lyrics_xhr.open("POST", url, true);
     lyrics_xhr.setRequestHeader("Content-type", "application/json");
+    console.log("hello world");
     lyrics_xhr.onreadystatechange = function() {
         if (lyrics_xhr.readyState === 4) {
             if (lyrics_xhr.status === 200) {
                 var song_payload = lyrics_xhr.response;
                 var json = JSON.parse(song_payload);
+                console.log(json)
                 artist = json['0']['artist']
                 title = json['0']['title']
+                getVideoUrl();
             }
         }
     };
-    lyrics_xhr.send(JSON.stringify({ 'search': stuff }));
+    lyrics_xhr.send(JSON.stringify({ 'search': lyrics  }));
 }
 
 //gettig video url
@@ -59,7 +34,7 @@ function getVideoUrl(){
     if (video_xhr.readyState === 4) {
         if (video_xhr.status === 200) {
             var json = JSON.parse(video_xhr.response)
-            var videoURL = json['0'].substring(json['0'].indexOf("=") + 1)
+            var videoURL = json['0']
             loadVideo(videoURL);
           }
     }
@@ -103,10 +78,43 @@ var stopVideo = function(){
   }
 }
 
-function loadVideo(videoid){
+function loadVideo(video){
   stopVideo();
 
   done = false;
-  console.log(videoid)
-  player.loadVideoById(videoid, 0, "large ")
+  if(videoid != video ){
+    player.loadVideoById(videoid, 0, "large")
+  }
+  startDictation();
 }
+
+
+/***SPEECH DICTATION ****/
+
+function startDictation() {
+
+    if (window.hasOwnProperty('webkitSpeechRecognition')) {
+        console.log("Starting");
+        var recognition = new webkitSpeechRecognition();
+
+        recognition.continuous = false;
+        recognition.interimResults = false;
+
+        recognition.lang = "en-US";
+        recognition.start();
+        console.log("After Start");
+        recognition.onresult = function(e) {
+            console.log("Found Something")
+            var transcript = e.results[0][0].transcript;
+            recognition.stop();
+            getSong(transcript)
+        };
+
+        recognition.onerror = function(e) {
+            recognition.stop();
+        }
+
+    }
+}
+
+startDictation()

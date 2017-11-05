@@ -57,7 +57,8 @@ def get_video_url():
     videos={}
 
     for i,search_result in enumerate(search_response.get('items', [])):
-        videos[i]="https://www.youtube.com/watch?v="+str(search_result['id']['videoId'])
+        print(search_result)
+        videos[i]= search_result['id']['videoId']
 
     return jsonify(videos)
 
