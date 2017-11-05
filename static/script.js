@@ -59,7 +59,7 @@ function getVideoUrl(){
     if (video_xhr.readyState === 4) {
         if (video_xhr.status === 200) {
             var json = JSON.parse(video_xhr.response)
-            var videoURL = json['0'].substring(json['0'].indexOf("="))
+            var videoURL = json['0'].substring(json['0'].indexOf("=") + 1)
             loadVideo(videoURL);
           }
     }
@@ -95,10 +95,7 @@ var onPlayerReady = function(event){
 
 var done = false;
 var onPlayerStateChange = function(){
-  if(event.data == YT.PlayerState.PLAYING && !done){
-    setTimeout(stopVideo, 6000)
-    done = true
-  }
+
 }
 var stopVideo = function(){
   if(player != null){
@@ -108,14 +105,8 @@ var stopVideo = function(){
 
 function loadVideo(videoid){
   stopVideo();
-  print(videoid)
-  player = new YT.Player('player', {
-    height: '390',
-    width: '640',
-    videoId: videoid,
-    events: {
-      'onReady': onPlayerReady,
-      'onStateChange': onPlayerStateChange
-    }
-  })
+
+  done = false;
+  console.log(videoid)
+  player.loadVideoById(videoid, 0, "large ")
 }
