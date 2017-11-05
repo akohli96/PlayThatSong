@@ -77,7 +77,6 @@ var stopVideo = function() {
     }
 }
 
-<<<<<<< HEAD
 function loadVideo(video){
   stopVideo();
 
@@ -118,12 +117,3 @@ function startDictation() {
 }
 
 startDictation()
-=======
-function loadVideo(videoid) {
-    stopVideo();
-
-    done = false;
-    console.log(videoid)
-    player.loadVideoById(videoid, 0, "large ")
-}
->>>>>>> b4686985d74f17e34e651e13cb125e8d5d226cf8
