@@ -28,6 +28,7 @@ Key API's:
 git clone https://github.com/akohli96/PlayThatSong
 cd PlayThatSong
 virtualenv .env
+source .env/bin/activate
 pip install -r requirements.txt
 ###Place Youtube Data API keys in the cred.py file
 
