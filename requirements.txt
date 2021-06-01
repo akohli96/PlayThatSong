@@ -23,6 +23,6 @@ requests==2.18.4
 rsa==4.1
 six==1.11.0
 uritemplate==3.0.0
-urllib3==1.22
+urllib3==1.26.5
 watson-developer-cloud==0.26.1
 Werkzeug==0.15.3
